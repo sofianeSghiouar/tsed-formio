@@ -82,5 +82,40 @@ describe("Select", () => {
 
       expect(getByRole("option", { name: "test1" })).toBeInTheDocument();
     });
+    it("should render the select component with a different size", () => {
+      const { getByTestId } = render(<Choicesjs {...Choicesjs.args} size='small' name={"test-choices"} />);
+      const select = getByTestId("select_test-choices");
+      expect(select).toBeInTheDocument();
+      expect(select).toHaveClass("form-control-small");
+    });
+
+    it("should render select options", () => {
+      const choices = [
+        { label: "test1", value: "value1" },
+        { label: "test2", value: "value2" }
+      ];
+
+      const placeHolderTest = "Placeholder test";
+
+      const { getByRole } = render(<Choicesjs {...Choicesjs.args} placeholder={placeHolderTest} choices={choices} name={"test-sandbox"} />);
+
+      expect(getByRole("textbox", { name: "Placeholder test" })).toBeInTheDocument();
+      expect(getByRole("option", { name: "test1" })).toBeInTheDocument();
+      expect(getByRole("option", { name: "test2" })).toBeInTheDocument();
+    });
+    it("should have 'test1' label as selected option by default", () => {
+      const choices = [
+        { label: "test1", value: "value1" },
+        { label: "test2", value: "value2" }
+      ];
+      const placeHolderTest = "Placeholder test";
+
+      const { getByTestId } = render(<Choicesjs {...Choicesjs.args} placeholder={placeHolderTest} choices={choices} name={"test-choices"} />);
+      
+      const select = getByTestId("select_test-choices");
+
+      expect(select).toHaveDisplayValue("test1");
+    });
+    
   });
 });
